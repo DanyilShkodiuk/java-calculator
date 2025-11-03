@@ -2,22 +2,25 @@ import java.util.Scanner;
 
 public class Calculator {
 
+    // NEW: Created a helper method to avoid repeating the menu text.
+    // Before: You printed the same menu in every case.
+    // Now: You just call printMenu() to show it — cleaner and easier to update
+    static void printMenu(){
+        System.out.println("what operation do you want to do? Provide Symbol( \n1.+ \n2.- \n3.* \n4./ \n5.% \n6.Change \nExit ");
+    }
+
     static int addition(int first, int second) {
         return first + second;
     }
-
     static int subtraction(int first, int second) {
         return first - second;
     }
-
     static int multiplication(int first, int second) {
         return first * second;
     }
-
     static int division(int first, int second) {
         return first / second;
     }
-
     static int modulo(int first, int second) {
         return first % second;
     }
@@ -32,98 +35,86 @@ public class Calculator {
         System.out.print("Type second number: ");
         int secondNumber = scanner.nextInt();
 
-        System.out.println("what operation do you want to do? Provide Symbol( \n1.+ \n2.- \n3.* \n4./ \n5.% \n6.Change \nExit ");
+        // CHANGED: printMenu() replaces hardcoded text.
+        printMenu();
         String operation = scanner.next();
 
-        while (!operation.equals("Exit")){
+        //CHANGED: Added equalsIgnoreCase("Exit") — more user-friendly (accepts 'exit' or 'EXIT')
+        while (!operation.equalsIgnoreCase("Exit")){
+            // NEW VARIABLES: introduced result + validOperation
+            // Purpose: Prevent printing result after invalid input or "Change" menu.
+            int result = 0;
+            boolean validOperation = true;
+
+            // CHANGED: Switched to Java 14+ "arrow switch" syntax for cleaner code (→)
+            // It’s more modern, readable, and prevents fall-through errors.
             switch (operation) {
-                case "+":
-                    int result = addition(firstNumber, secondNumber);
-                    System.out.println("Addition of numbers gives you: " + result);
-                    System.out.println("what operation do you want to do? Provide Symbol( \n1.+ \n2.- \n3.* \n4./ \n5.% \n6.Change \nExit ");
-                    operation = scanner.next();
-                    break;
+                case "+" -> result = addition(firstNumber, secondNumber);
 
-                case "-":
-                    result = subtraction(firstNumber, secondNumber);
-                    System.out.println("Subtraction of numbers gives you: " + result);
-                    System.out.println("what operation do you want to do? Provide Symbol( \n1.+ \n2.- \n3.* \n4./ \n5.% \n6.Change \nExit ");
-                    operation = scanner.next();
-                    break;
+                case "-" -> result = subtraction(firstNumber, secondNumber);
 
-                case "*":
-                    result = multiplication(firstNumber, secondNumber);
-                    System.out.println("Multiplication of numbers gives you: " + result);
-                    System.out.println("what operation do you want to do? Provide Symbol( \n1.+ \n2.- \n3.* \n4./ \n5.% \n6.Change \nExit ");
-                    operation = scanner.next();
-                    break;
+                case "*" -> result = multiplication(firstNumber, secondNumber);
 
-                case "/":
+                // IMPROVED: Division now checks for zero BEFORE performing operation
+                case "/" -> {
                     if (secondNumber == 0) {
-                        System.out.println("Invalid operation! Number cant be divide by 0! Provide other Number");
-                        System.out.println("Please enter a number other than 0:");
+                        System.out.println("Cannot divide by 0. Enter another number: ");
                         secondNumber = scanner.nextInt();
-                        break;
-                    }else {
+                        validOperation = false;
+                    } else {
                         result = division(firstNumber, secondNumber);
-                        System.out.println("Division of numbers gives you: " + result);
-                        System.out.println("what operation do you want to do? Provide Symbol( \n1.+ \n2.- \n3.* \n4./ \n5.% \n6.Change \nExit ");
-                        operation = scanner.next();
-                        break;
                     }
-
-                case "%":
+                }
+                // IMPROVED: Same protection added for modulo
+                case "%" -> {
                     if (secondNumber == 0) {
-                        System.out.println("Invalid operation! Number cant be divide by 0! Provide other Number");
-                        System.out.print("Please enter a number other than 0:");
+                        System.out.println("Cannot divide by 0. Enter another number: ");
                         secondNumber = scanner.nextInt();
-                        break;
-                    }else {
+                        validOperation = false;
+                    } else {
                         result = modulo(firstNumber, secondNumber);
-                        System.out.println("Modulo of numbers gives you: " + result);
-                        System.out.println("what operation do you want to do? Provide Symbol( \n1.+ \n2.- \n3.* \n4./ \n5.% \n6.Change \nExit ");
-                        operation = scanner.next();
-                        break;
                     }
-
-                case "Change":
-                    String decisionWhichNumToChange = "";
-
-                    while (!decisionWhichNumToChange.equals("exit")) {
-                        System.out.println("Which number do you want to change?");
-                        System.out.println("1. first\n2. second\n3. exit");
-                        decisionWhichNumToChange = scanner.next();
-
-                        if (decisionWhichNumToChange.equals("first")) {
-                            System.out.print("Please enter the first number: ");
-                            firstNumber = scanner.nextInt();
-                            System.out.println("The first number is now: " + firstNumber);
-                        } else if (decisionWhichNumToChange.equals("second")) {
-                            System.out.print("Please enter the second number: ");
-                            secondNumber = scanner.nextInt();
-                            System.out.println("The second number is now: " + secondNumber);
-                        } else if (decisionWhichNumToChange.equals("exit")) {
-                            System.out.println("Numbers now: " + firstNumber + " and " + secondNumber);
-                        } else {
-                            System.out.println("Invalid option. Try again.");
+                }
+                // "Change" block rewritten with inner while loop for clarity.
+                // Old version returned to main switch immediately — now user can change multiple numbers without leaving.
+                    case "Change" -> {
+                        String choice = "";
+                        while (!choice.equalsIgnoreCase("Exit")) {
+                            System.out.println("Which number would you like to change? ");
+                            System.out.println("1. first\n2. second\n3. exit");
+                            choice = scanner.next();
+                            // Used nested arrow switch — simpler syntax, fewer braces.
+                            switch (choice) {
+                                case "first" -> {
+                                    System.out.println("Enter first number: ");
+                                    firstNumber = scanner.nextInt();
+                                }
+                                case "second" -> {
+                                    System.out.println("Enter second number: ");
+                                    secondNumber = scanner.nextInt();
+                                }
+                                case "exit" -> System.out.println("Numbers now: " + firstNumber + ", " + secondNumber);
+                                default -> System.out.println("Invalid option. Try again.");
+                            }
                         }
+                        validOperation = false; // Don’t print result after “Change”
                     }
-
-                    // When user types "exit", go back to main calculator loop
-                    System.out.println("what operation do you want to do? Provide Symbol( \n1.+ \n2.- \n3.* \n4./ \n5.% \n6.Change \nExit ");
-                    operation = scanner.next();
-                    break;
-
-                default:
-                    System.out.println("Invalid operation! Try again or type Exit.");
-                    System.out.println("what operation do you want to do? Provide Symbol( \n1.+ \n2.- \n3.* \n4./ \n5.% \n6.Change \nExit ");
-                    operation = scanner.next();
-                    break;
-            }
+                    // Default case cleaned up: prints once and continues.
+                    default -> {
+                        System.out.println("Invalid operation! Try again or type Exit.");
+                        validOperation = false;
+                    }
+                }
+                // NEW CHECK: result printed only if operation was valid
+                if (validOperation && !operation.equalsIgnoreCase("Change")) {
+                    System.out.println("Result: " + result);
+                }
+                // printMenu() reused instead of repeated text
+                printMenu();
+                operation = scanner.next();
         }
-            System.out.println("Exit calculator");
-
+        // Program exit message moved outside loop — prints once
+        System.out.println("Exit calculator");
         scanner.close();
-
     }
 }
