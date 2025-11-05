@@ -25,25 +25,23 @@ public class Calculator {
     static int modulo(int first, int second) {
         return first % second;
     }
+    static int getValidInt(Scanner scanner, String message){
+        System.out.print(message);
+        while(!scanner.hasNextInt()){
+            System.out.print("Wrong input! Please enter a valid integer: ");
+            scanner.next();
+        }
+        return scanner.nextInt();
+    }
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        int firstNumber;
-        int secondNumber;
 
-        System.out.print("Type first number: ");
-        while(!scanner.hasNextInt()){
-            System.out.println("Wrong input! Please enter number");
-            scanner.next();
-        }
-        firstNumber = scanner.nextInt();
-        System.out.print("Type second number: ");
-        while(!scanner.hasNextInt()){
-            System.out.println("Wrong input! Please enter number");
-            scanner.next();
-        }
-        secondNumber = scanner.nextInt();
+        int firstNumber = getValidInt(scanner, "Enter first number: ");
+        int secondNumber =  getValidInt(scanner, "Enter second number: ");
+
+        System.out.println("You entered: " + firstNumber + " " + secondNumber);
 
         // CHANGED: printMenu() replaces hardcoded text.
         printMenu();
