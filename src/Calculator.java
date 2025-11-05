@@ -33,13 +33,24 @@ public class Calculator {
         }
         return scanner.nextInt();
     }
+    static int tryCatchIntValidator(Scanner scanner, String message){
+        while(true){
+            System.out.print(message);
+            try {
+                return Integer.parseInt(scanner.nextLine());
+            } catch(NumberFormatException e) {
+                System.out.println("Wrong input! Please enter a valid integer.");
+            }
+        }
+
+    }
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
-        int firstNumber = getValidInt(scanner, "Enter first number: ");
-        int secondNumber =  getValidInt(scanner, "Enter second number: ");
+        int firstNumber = tryCatchIntValidator(scanner, "Enter first number: ");
+        int secondNumber =  tryCatchIntValidator(scanner, "Enter second number: ");
 
         System.out.println("You entered: " + firstNumber + " " + secondNumber);
 
