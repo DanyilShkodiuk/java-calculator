@@ -1,109 +1,73 @@
-import java.awt.*;
 import java.util.Scanner;
-
 public class Calculator {
-
-    // NEW: Created a helper method to avoid repeating the menu text.
-    // Before: You printed the same menu in every case.
-    // Now: You just call printMenu() to show it — cleaner and easier to update
-    static void printMenu(){
-        System.out.println("what operation do you want to do? Provide Symbol( \n1.+ \n2.- \n3.* \n4./ \n5.% \n6.Change \nExit ");
-    }
-
-    static int addition(int first, int second) {
-        return first + second;
-    }
-    static int subtraction(int first, int second) {
-        return first - second;
-    }
-    static int multiplication(int first, int second) {
-        return first * second;
-    }
-    static int division(int first, int second) {
-        return first / second;
-    }
-    static int modulo(int first, int second) {
-        return first % second;
-    }
-    static int getValidInt(Scanner scanner, String message){
-        System.out.print(message);
-        while(!scanner.hasNextInt()){
-            System.out.print("Wrong input! Please enter a valid integer: ");
-            scanner.next();
-        }
-        return scanner.nextInt();
-    }
-    static int tryCatchIntValidator(Scanner scanner, String message){
-        while(true){
-            System.out.print(message);
-            try {
-                return Integer.parseInt(scanner.nextLine());
-            } catch(NumberFormatException e) {
-                System.out.println("Wrong input! Please enter a valid integer.");
-            }
-        }
-
-    }
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
-        int firstNumber = tryCatchIntValidator(scanner, "Enter first number: ");
-        int secondNumber =  tryCatchIntValidator(scanner, "Enter second number: ");
+        int firstNumber = CalculatorValidator.tryCatchIntValidator(scanner, "Enter first number: ");
+        int secondNumber =  CalculatorValidator.tryCatchIntValidator(scanner, "Enter second number: ");
 
-        System.out.println("You entered: " + firstNumber + " " + secondNumber);
+        System.out.println("\nFirst number: " + firstNumber + "\n" + "Second number: " + secondNumber + "\n");
 
-        // CHANGED: printMenu() replaces hardcoded text.
-        printMenu();
+
+        CalculatorMenu.printMenu();
+        System.out.print("Operation: ");
         String operation = scanner.next();
+        System.out.println();
 
-        //CHANGED: Added equalsIgnoreCase("Exit") — more user-friendly (accepts 'exit' or 'EXIT')
-        while (!operation.equalsIgnoreCase("Exit")){
-            // NEW VARIABLES: introduced result + validOperation
-            // Purpose: Prevent printing result after invalid input or "Change" menu.
+        while (!operation.equalsIgnoreCase(CalculatorMenu.operationNames[6])){
+
             int result = 0;
             boolean validOperation = true;
 
-            // CHANGED: Switched to Java 14+ "arrow switch" syntax for cleaner code (→)
-            // It’s more modern, readable, and prevents fall-through errors.
-            switch (operation) {
-                case "+" -> result = addition(firstNumber, secondNumber);
+            int indexOfOperation;
+            try {
+                int GeneralChoice = Integer.parseInt(operation);
+                if(GeneralChoice >= 1 && GeneralChoice <= CalculatorMenu.operationIcons.length){
+                    indexOfOperation = GeneralChoice - 1;
+                    operation = CalculatorMenu.operationIcons[indexOfOperation];
+                }
+            } catch (NumberFormatException ignored) {}
 
-                case "-" -> result = subtraction(firstNumber, secondNumber);
-
-                case "*" -> result = multiplication(firstNumber, secondNumber);
-
-                // IMPROVED: Division now checks for zero BEFORE performing operation
+            switch (operation.toLowerCase()) {
+                case "+" -> result = CalculatorLogic.addition(firstNumber, secondNumber);
+                case "-" -> result = CalculatorLogic.subtraction(firstNumber, secondNumber);
+                case "*" -> result = CalculatorLogic.multiplication(firstNumber, secondNumber);
                 case "/" -> {
                     if (secondNumber == 0) {
                         System.out.println("Cannot divide by 0. Enter another number: ");
                         secondNumber = scanner.nextInt();
                         validOperation = false;
                     } else {
-                        result = division(firstNumber, secondNumber);
+                        result = CalculatorLogic.division(firstNumber, secondNumber);
                     }
                 }
-                // IMPROVED: Same protection added for modulo
                 case "%" -> {
                     if (secondNumber == 0) {
                         System.out.println("Cannot divide by 0. Enter another number: ");
                         secondNumber = scanner.nextInt();
                         validOperation = false;
                     } else {
-                        result = modulo(firstNumber, secondNumber);
+                        result = CalculatorLogic.modulo(firstNumber, secondNumber);
                     }
                 }
-                // "Change" block rewritten with inner while loop for clarity.
-                // Old version returned to main switch immediately — now user can change multiple numbers without leaving.
-                    case "Change" -> {
+                case "change" -> {
                         String choice = "";
                         while (!choice.equalsIgnoreCase("Exit")) {
                             System.out.println("Which number would you like to change? ");
-                            System.out.println("1. first\n2. second\n3. exit");
+                            CalculatorMenu.printChangeMenu();
                             choice = scanner.next();
+
+                            try {
+                                int ChangeChoice = Integer.parseInt(choice);
+                                if(ChangeChoice >= 1 && ChangeChoice <= CalculatorMenu.changeMenuOperations.length){
+                                    choice = CalculatorMenu.changeMenuOperations[ChangeChoice - 1];
+                                }
+                            } catch (NumberFormatException ignored) {}
+
                             // Used nested arrow switch — simpler syntax, fewer braces.
-                            switch (choice) {
+                            switch (choice.toLowerCase()) {
                                 case "first" -> {
                                     System.out.println("Enter first number: ");
                                     firstNumber = scanner.nextInt();
@@ -118,18 +82,20 @@ public class Calculator {
                         }
                         validOperation = false; // Don’t print result after “Change”
                     }
-                    // Default case cleaned up: prints once and continues.
-                    default -> {
+                case "exit" -> {
+                    System.out.println("Exiting Calculator");
+                    return;
+                }
+                default -> {
                         System.out.println("Invalid operation! Try again or type Exit.");
                         validOperation = false;
                     }
                 }
-                // NEW CHECK: result printed only if operation was valid
-                if (validOperation && !operation.equalsIgnoreCase("Change")) {
+                if (validOperation) {
                     System.out.println("Result: " + result);
                 }
-                // printMenu() reused instead of repeated text
-                printMenu();
+
+                CalculatorMenu.printMenu();
                 operation = scanner.next();
         }
         // Program exit message moved outside loop — prints once
