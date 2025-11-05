@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Scanner;
 
 public class Calculator {
@@ -28,12 +29,21 @@ public class Calculator {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
+        int firstNumber;
+        int secondNumber;
 
         System.out.print("Type first number: ");
-        int firstNumber = scanner.nextInt();
-
+        while(!scanner.hasNextInt()){
+            System.out.println("Wrong input! Please enter number");
+            scanner.next();
+        }
+        firstNumber = scanner.nextInt();
         System.out.print("Type second number: ");
-        int secondNumber = scanner.nextInt();
+        while(!scanner.hasNextInt()){
+            System.out.println("Wrong input! Please enter number");
+            scanner.next();
+        }
+        secondNumber = scanner.nextInt();
 
         // CHANGED: printMenu() replaces hardcoded text.
         printMenu();
