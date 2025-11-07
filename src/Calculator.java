@@ -5,20 +5,18 @@ public class Calculator {
 
         Scanner scanner = new Scanner(System.in);
 
-        int firstNumber = CalculatorValidator.tryCatchIntValidator(scanner, "Enter first number: ");
-        int secondNumber =  CalculatorValidator.tryCatchIntValidator(scanner, "Enter second number: ");
+        double firstNumber = CalculatorValidator.tryCatchDoubleValidator(scanner, "Enter first number: ");
+        double secondNumber =  CalculatorValidator.tryCatchDoubleValidator(scanner, "Enter second number: ");
 
-        System.out.println("\nFirst number: " + firstNumber + "\n" + "Second number: " + secondNumber + "\n");
+        System.out.printf("\nFirst number: %.3f%nSecond number: %.3f%n", firstNumber, secondNumber);
 
 
         CalculatorMenu.printMenu();
-        System.out.print("Operation: ");
-        String operation = scanner.next();
-        System.out.println();
+        String operation = scanner.next() + "\n";
 
         while (!operation.equalsIgnoreCase(CalculatorMenu.operationNames[6])){
 
-            int result = 0;
+            double result = 0;
             boolean validOperation = true;
 
             int indexOfOperation;
@@ -37,7 +35,7 @@ public class Calculator {
                 case "/" -> {
                     if (secondNumber == 0) {
                         System.out.println("Cannot divide by 0. Enter another number: ");
-                        secondNumber = scanner.nextInt();
+                        secondNumber = scanner.nextDouble();
                         validOperation = false;
                     } else {
                         result = CalculatorLogic.division(firstNumber, secondNumber);
@@ -46,7 +44,7 @@ public class Calculator {
                 case "%" -> {
                     if (secondNumber == 0) {
                         System.out.println("Cannot divide by 0. Enter another number: ");
-                        secondNumber = scanner.nextInt();
+                        secondNumber = scanner.nextDouble();
                         validOperation = false;
                     } else {
                         result = CalculatorLogic.modulo(firstNumber, secondNumber);
@@ -70,13 +68,15 @@ public class Calculator {
                             switch (choice.toLowerCase()) {
                                 case "first" -> {
                                     System.out.println("Enter first number: ");
-                                    firstNumber = scanner.nextInt();
+                                    String input = scanner.next().replace(",", ".");
+                                    firstNumber = Double.parseDouble(input);
                                 }
                                 case "second" -> {
                                     System.out.println("Enter second number: ");
-                                    secondNumber = scanner.nextInt();
+                                    String input = scanner.next().replace(",", ".");
+                                    secondNumber = Double.parseDouble(input);
                                 }
-                                case "exit" -> System.out.println("Numbers now: " + firstNumber + ", " + secondNumber);
+                                case "exit" -> System.out.printf("Numbers now: %.3f, %.3f%n" , firstNumber , secondNumber);
                                 default -> System.out.println("Invalid option. Try again.");
                             }
                         }
@@ -92,11 +92,11 @@ public class Calculator {
                     }
                 }
                 if (validOperation) {
-                    System.out.println("Result: " + result);
+                    System.out.printf("Result: %.3f%n" , result);
                 }
 
                 CalculatorMenu.printMenu();
-                operation = scanner.next();
+                operation = scanner.next() + "\n";
         }
         // Program exit message moved outside loop — prints once
         System.out.println("Exit calculator");
