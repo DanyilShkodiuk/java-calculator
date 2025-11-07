@@ -39,4 +39,12 @@ public enum CalculatorEnumMenu {
         }
         return null;
     }
+    public static void printMenu() {
+        System.out.println("\nSelect an operation / Number of operation:");
+        int index = 1;
+        for (CalculatorEnumMenu op : CalculatorEnumMenu.values()) {
+            System.out.printf("%d. %s (%s)%n", index++, op.getSymbol(), op.getDisplayName());
+        }
+        System.out.print("\nOperation: ");
+    }
 }
