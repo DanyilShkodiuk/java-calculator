@@ -1,17 +1,17 @@
 public class CalculatorLogic {
-    static int addition(int first, int second) {
-        return first + second;
+    static double addition(double first, double second) {
+        return  first + second;
     }
-    static int subtraction(int first, int second) {
+    static double subtraction(double first, double second) {
         return first - second;
     }
-    static int multiplication(int first, int second) {
+    static double multiplication(double first, double second) {
         return first * second;
     }
-    static int division(int first, int second) {
+    static double division(double first, double second) {
         return first / second;
     }
-    static int modulo(int first, int second) {
+    static double modulo(double first, double second) {
         return first % second;
     }
 }
