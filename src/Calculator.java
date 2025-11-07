@@ -11,96 +11,85 @@ public class Calculator {
         System.out.printf("\nFirst number: %.3f%nSecond number: %.3f%n", firstNumber, secondNumber);
 
 
-        CalculatorMenu.printMenu();
-        String operation = scanner.next();
+        CalculatorEnumMenu.printMenu();
+        String userInput = scanner.next();
+        CalculatorEnumMenu operation = CalculatorEnumMenu.fromInput(userInput);
 
-        while (!operation.equalsIgnoreCase(CalculatorMenu.operationNames[6])){
+        while (operation != CalculatorEnumMenu.EXIT){
 
             double result = 0;
             boolean validOperation = true;
 
-            int indexOfOperation;
-            try {
-                int GeneralChoice = Integer.parseInt(operation);
-                if(GeneralChoice >= 1 && GeneralChoice <= CalculatorMenu.operationIcons.length){
-                    indexOfOperation = GeneralChoice - 1;
-                    operation = CalculatorMenu.operationIcons[indexOfOperation];
-                }
-            } catch (NumberFormatException ignored) {}
-
-            switch (operation.toLowerCase()) {
-                case "+" -> result = CalculatorLogic.addition(firstNumber, secondNumber);
-                case "-" -> result = CalculatorLogic.subtraction(firstNumber, secondNumber);
-                case "*" -> result = CalculatorLogic.multiplication(firstNumber, secondNumber);
-                case "/" -> {
-                    if (secondNumber == 0.0) {
-                        System.out.println("Cannot divide by 0. Enter another number: ");
-                        String input = scanner.next().replace(",", ".");
-                        secondNumber = Double.parseDouble(input);
-                        validOperation = false;
-                    } else {
-                        result = CalculatorLogic.division(firstNumber, secondNumber);
+            if (operation == null){
+                System.out.println("Invalid operation! Try again or type Exit.");
+                validOperation = false;
+            } else {
+                switch (operation) {
+                    case ADD -> result = CalculatorLogic.addition(firstNumber, secondNumber);
+                    case SUB -> result = CalculatorLogic.subtraction(firstNumber, secondNumber);
+                    case MUL -> result = CalculatorLogic.multiplication(firstNumber, secondNumber);
+                    case DIV -> {
+                        if (secondNumber == 0.0) {
+                            System.out.println("Cannot divide by 0. Enter another number: ");
+                            secondNumber = CalculatorValidator.tryCatchDoubleValidator(scanner, "");
+                            validOperation = false;
+                        } else {
+                            result = CalculatorLogic.division(firstNumber, secondNumber);
+                        }
                     }
-                }
-                case "%" -> {
-                    if (secondNumber == 0.0) {
-                        System.out.println("Cannot divide by 0. Enter another number: ");
-                        String input = scanner.next().replace(",", ".");
-                        secondNumber = Double.parseDouble(input);
-                        validOperation = false;
-                    } else {
-                        result = CalculatorLogic.modulo(firstNumber, secondNumber);
+                    case MOD -> {
+                        if (secondNumber == 0.0) {
+                            System.out.println("Cannot divide by 0. Enter another number: ");
+                            secondNumber = CalculatorValidator.tryCatchDoubleValidator(scanner, "");
+                            validOperation = false;
+                        } else {
+                            result = CalculatorLogic.modulo(firstNumber, secondNumber);
+                        }
                     }
-                }
-                case "change" -> {
-                        String choice = "";
-                        while (!choice.equalsIgnoreCase("Exit")) {
-                            System.out.println("Which number would you like to change? ");
-                            CalculatorMenu.printChangeMenu();
-                            choice = scanner.next();
+                    case CHANGE -> {
+                        CalculatorEnumChangeMenu changeOption = null;
 
-                            try {
-                                int ChangeChoice = Integer.parseInt(choice);
-                                if(ChangeChoice >= 1 && ChangeChoice <= CalculatorMenu.changeMenuOperations.length){
-                                    choice = CalculatorMenu.changeMenuOperations[ChangeChoice - 1];
-                                }
-                            } catch (NumberFormatException ignored) {}
+                        while (changeOption != CalculatorEnumChangeMenu.EXIT) {
 
-                            // Used nested arrow switch — simpler syntax, fewer braces.
-                            switch (choice.toLowerCase()) {
-                                case "first" -> {
-                                    System.out.println("Enter first number: ");
+                            CalculatorEnumChangeMenu.printChangeMenu();
+                            String changeInput = scanner.next();
+                            changeOption = CalculatorEnumChangeMenu.fromInput(changeInput);
+
+                            if (changeOption == null) {
+                                System.out.println("Invalid option! Try again or type Exit.");
+                                continue;
+                            }
+
+                            switch (changeOption) {
+                                case FIRST -> {
+                                    System.out.print("Enter first number: ");
                                     String input = scanner.next().replace(",", ".");
                                     firstNumber = Double.parseDouble(input);
                                 }
-                                case "second" -> {
-                                    System.out.println("Enter second number: ");
+                                case SECOND -> {
+                                    System.out.print("Enter second number: ");
                                     String input = scanner.next().replace(",", ".");
                                     secondNumber = Double.parseDouble(input);
                                 }
-                                case "exit" -> System.out.printf("Numbers now: %.3f, %.3f%n" , firstNumber , secondNumber);
-                                default -> System.out.println("Invalid option. Try again.");
+                                default -> System.out.println("Invalid option! Choose valid option.");
                             }
                         }
-                        validOperation = false; // Don’t print result after “Change”
-                    }
-                case "exit" -> {
-                    System.out.println("Exiting Calculator");
-                    return;
-                }
-                default -> {
-                        System.out.println("Invalid operation! Try again or type Exit.");
+
                         validOperation = false;
                     }
+
                 }
+            }
+
                 if (validOperation) {
                     System.out.printf("Result: %.3f%n" , result);
                 }
 
-                CalculatorMenu.printMenu();
-                operation = scanner.next();
+                CalculatorEnumMenu.printMenu();
+                userInput = scanner.next();
+                operation = CalculatorEnumMenu.fromInput(userInput);
         }
-        // Program exit message moved outside loop — prints once
+
         System.out.println("Exit calculator");
         scanner.close();
     }
