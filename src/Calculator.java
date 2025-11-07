@@ -71,9 +71,6 @@ public class Calculator {
                                     String input = scanner.next().replace(",", ".");
                                     secondNumber = Double.parseDouble(input);
                                 }
-                                case EXIT -> {
-                                    System.out.printf("Numbers now: %.3f, %.3f%n", firstNumber, secondNumber);
-                                }
                                 default -> System.out.println("Invalid option! Choose valid option.");
                             }
                         }
