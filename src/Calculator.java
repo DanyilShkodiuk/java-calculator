@@ -12,7 +12,7 @@ public class Calculator {
 
 
         CalculatorMenu.printMenu();
-        String operation = scanner.next() + "\n";
+        String operation = scanner.next();
 
         while (!operation.equalsIgnoreCase(CalculatorMenu.operationNames[6])){
 
@@ -33,18 +33,20 @@ public class Calculator {
                 case "-" -> result = CalculatorLogic.subtraction(firstNumber, secondNumber);
                 case "*" -> result = CalculatorLogic.multiplication(firstNumber, secondNumber);
                 case "/" -> {
-                    if (secondNumber == 0) {
+                    if (secondNumber == 0.0) {
                         System.out.println("Cannot divide by 0. Enter another number: ");
-                        secondNumber = scanner.nextDouble();
+                        String input = scanner.next().replace(",", ".");
+                        secondNumber = Double.parseDouble(input);
                         validOperation = false;
                     } else {
                         result = CalculatorLogic.division(firstNumber, secondNumber);
                     }
                 }
                 case "%" -> {
-                    if (secondNumber == 0) {
+                    if (secondNumber == 0.0) {
                         System.out.println("Cannot divide by 0. Enter another number: ");
-                        secondNumber = scanner.nextDouble();
+                        String input = scanner.next().replace(",", ".");
+                        secondNumber = Double.parseDouble(input);
                         validOperation = false;
                     } else {
                         result = CalculatorLogic.modulo(firstNumber, secondNumber);
@@ -96,7 +98,7 @@ public class Calculator {
                 }
 
                 CalculatorMenu.printMenu();
-                operation = scanner.next() + "\n";
+                operation = scanner.next();
         }
         // Program exit message moved outside loop — prints once
         System.out.println("Exit calculator");
