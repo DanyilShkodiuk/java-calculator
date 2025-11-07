@@ -11,7 +11,7 @@ public class Calculator {
         System.out.printf("\nFirst number: %.3f%nSecond number: %.3f%n", firstNumber, secondNumber);
 
 
-        CalculatorMenu.printMenu();
+        CalculatorEnumMenu.printMenu();
         String userInput = scanner.next();
         CalculatorEnumMenu operation = CalculatorEnumMenu.fromInput(userInput);
 
@@ -85,7 +85,7 @@ public class Calculator {
                     System.out.printf("Result: %.3f%n" , result);
                 }
 
-                CalculatorMenu.printMenu();
+                CalculatorEnumMenu.printMenu();
                 userInput = scanner.next();
                 operation = CalculatorEnumMenu.fromInput(userInput);
         }
