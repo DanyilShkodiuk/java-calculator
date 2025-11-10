@@ -10,10 +10,7 @@ public class Calculator {
 
         System.out.printf("\nFirst number: %.3f%nSecond number: %.3f%n", firstNumber, secondNumber);
 
-
-        CalculatorEnumMenu.printMenu();
-        String userInput = scanner.next();
-        CalculatorEnumMenu operation = CalculatorEnumMenu.fromInput(userInput);
+        CalculatorEnumMenu operation = InputHandler.getOperationFromUser(scanner);
 
         while (operation != CalculatorEnumMenu.EXIT){
 
@@ -51,9 +48,7 @@ public class Calculator {
 
                         while (changeOption != CalculatorEnumChangeMenu.EXIT) {
 
-                            CalculatorEnumChangeMenu.printChangeMenu();
-                            String changeInput = scanner.next();
-                            changeOption = CalculatorEnumChangeMenu.fromInput(changeInput);
+                            changeOption = InputHandler.getChangeOperationFromUser(scanner);
 
                             if (changeOption == null) {
                                 System.out.println("Invalid option! Try again or type Exit.");
@@ -71,8 +66,8 @@ public class Calculator {
                                     String input = scanner.next().replace(",", ".");
                                     secondNumber = Double.parseDouble(input);
                                 }
-                                default -> System.out.println("Invalid option! Choose valid option.");
                             }
+                            System.out.println("\nFirst Number: " + firstNumber + "\nSecondNumberL: "  + secondNumber);
                         }
 
                         validOperation = false;
@@ -84,10 +79,7 @@ public class Calculator {
                 if (validOperation) {
                     System.out.printf("Result: %.3f%n" , result);
                 }
-
-                CalculatorEnumMenu.printMenu();
-                userInput = scanner.next();
-                operation = CalculatorEnumMenu.fromInput(userInput);
+            operation = InputHandler.getOperationFromUser(scanner);
         }
 
         System.out.println("Exit calculator");
