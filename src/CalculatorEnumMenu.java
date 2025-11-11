@@ -39,6 +39,7 @@ public enum CalculatorEnumMenu {
         }
         return null;
     }
+
     public static void printMenu() {
         System.out.println("\nSelect an operation / Number of operation:");
         int index = 1;
