@@ -5,8 +5,8 @@ public class Calculator {
 
         Scanner scanner = new Scanner(System.in);
 
-        double firstNumber = CalculatorValidator.tryCatchDoubleValidator(scanner, "Enter first number: ");
-        double secondNumber =  CalculatorValidator.tryCatchDoubleValidator(scanner, "Enter second number: ");
+        double firstNumber = InputHandler.getNumberFromUser(scanner, "Enter first number: ");
+        double secondNumber =  InputHandler.getNumberFromUser(scanner, "Enter second number: ");
 
         System.out.printf("\nFirst number: %.3f%nSecond number: %.3f%n", firstNumber, secondNumber);
 
@@ -28,7 +28,7 @@ public class Calculator {
                     case DIV -> {
                         if (secondNumber == 0.0) {
                             System.out.println("Cannot divide by 0. Enter another number: ");
-                            secondNumber = CalculatorValidator.tryCatchDoubleValidator(scanner, "");
+                            secondNumber =  InputHandler.getNumberFromUser(scanner, "Enter second number: ");
                             validOperation = false;
                         } else {
                             result = CalculatorLogic.division(firstNumber, secondNumber);
@@ -37,7 +37,7 @@ public class Calculator {
                     case MOD -> {
                         if (secondNumber == 0.0) {
                             System.out.println("Cannot divide by 0. Enter another number: ");
-                            secondNumber = CalculatorValidator.tryCatchDoubleValidator(scanner, "");
+                            secondNumber =  InputHandler.getNumberFromUser(scanner, "Enter second number: ");
                             validOperation = false;
                         } else {
                             result = CalculatorLogic.modulo(firstNumber, secondNumber);
@@ -56,8 +56,8 @@ public class Calculator {
                             }
 
                             switch (changeOption) {
-                                case FIRST -> firstNumber = InputHandler.getChangedNumberFromUser(scanner, "Enter first number: ");
-                                case SECOND -> secondNumber = InputHandler.getChangedNumberFromUser(scanner, "Enter second number: ");
+                                case FIRST -> firstNumber = InputHandler.getNumberFromUser(scanner, "Enter first number: ");
+                                case SECOND -> secondNumber = InputHandler.getNumberFromUser(scanner, "Enter second number: ");
                             }
                             System.out.println("\nFirst Number: " + firstNumber + "\nSecondNumberL: " + secondNumber);
                         }

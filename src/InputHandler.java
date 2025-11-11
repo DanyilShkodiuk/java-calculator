@@ -14,7 +14,7 @@ public class InputHandler {
         return CalculatorEnumChangeMenu.fromInput(changeInput);
     }
 
-    public static double getChangedNumberFromUser(Scanner scanner, String message) {
+    public static double getNumberFromUser(Scanner scanner, String message) {
         double number = 0;
         boolean valid = false;
         while (!valid) {
@@ -28,5 +28,4 @@ public class InputHandler {
         }
         return number;
     }
-
 }
