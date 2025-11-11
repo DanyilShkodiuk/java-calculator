@@ -13,4 +13,20 @@ public class InputHandler {
         String changeInput = scanner.next();
         return CalculatorEnumChangeMenu.fromInput(changeInput);
     }
+
+    public static double getChangedNumberFromUser(Scanner scanner, String message) {
+        double number = 0;
+        boolean valid = false;
+        while (!valid) {
+            System.out.print(message);
+            try {
+                number = Double.parseDouble(scanner.next().replace(",", "."));
+                valid = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Wrong input! Please enter a valid number.");
+            }
+        }
+        return number;
+    }
+
 }

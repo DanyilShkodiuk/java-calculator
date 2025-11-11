@@ -56,23 +56,13 @@ public class Calculator {
                             }
 
                             switch (changeOption) {
-                                case FIRST -> {
-                                    System.out.print("Enter first number: ");
-                                    String input = scanner.next().replace(",", ".");
-                                    firstNumber = Double.parseDouble(input);
-                                }
-                                case SECOND -> {
-                                    System.out.print("Enter second number: ");
-                                    String input = scanner.next().replace(",", ".");
-                                    secondNumber = Double.parseDouble(input);
-                                }
+                                case FIRST -> firstNumber = InputHandler.getChangedNumberFromUser(scanner, "Enter first number: ");
+                                case SECOND -> secondNumber = InputHandler.getChangedNumberFromUser(scanner, "Enter second number: ");
                             }
-                            System.out.println("\nFirst Number: " + firstNumber + "\nSecondNumberL: "  + secondNumber);
+                            System.out.println("\nFirst Number: " + firstNumber + "\nSecondNumberL: " + secondNumber);
                         }
-
                         validOperation = false;
                     }
-
                 }
             }
 
