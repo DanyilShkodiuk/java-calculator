@@ -30,7 +30,7 @@ public enum CalculatorEnumChangeMenu {
         }catch (NumberFormatException ignored) {}
 
         for (CalculatorEnumChangeMenu option : CalculatorEnumChangeMenu.values()) {
-            if (option.getCommand().equals(input) ||  option.getDisplayName().toLowerCase().startsWith(input)) {
+            if (option.getCommand().toLowerCase().startsWith(input) ||  option.getDisplayName().toLowerCase().startsWith(input)) {
                 return option;
             }
         }

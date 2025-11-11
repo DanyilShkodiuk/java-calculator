@@ -1,78 +1,26 @@
 import java.util.Scanner;
-public class Calculator {
 
-    public static void main(String[] args) {
+    public class Calculator {
 
-        Scanner scanner = new Scanner(System.in);
+        public static void main(String[] args) {
 
-        double firstNumber = InputHandler.getNumberFromUser(scanner, "Enter first number: ");
-        double secondNumber =  InputHandler.getNumberFromUser(scanner, "Enter second number: ");
+            Scanner scanner = new Scanner(System.in);
 
-        System.out.printf("\nFirst number: %.3f%nSecond number: %.3f%n", firstNumber, secondNumber);
+            double firstNumber = InputHandler.getNumberFromUser(scanner, "Enter first number: ");
+            double secondNumber = InputHandler.getNumberFromUser(scanner, "Enter second number: ");
 
-        CalculatorEnumMenu operation = InputHandler.getOperationFromUser(scanner);
+            System.out.printf("\nFirst number: %.3f%nSecond number: %.3f%n", firstNumber, secondNumber);
 
-        while (operation != CalculatorEnumMenu.EXIT){
+            CalculatorHandler handler = new CalculatorHandler(firstNumber, secondNumber, scanner);
 
-            double result = 0;
-            boolean validOperation = true;
+            CalculatorEnumMenu operation = InputHandler.getOperationFromUser(scanner);
 
-            if (operation == null){
-                System.out.println("Invalid operation! Try again or type Exit.");
-                validOperation = false;
-            } else {
-                switch (operation) {
-                    case ADD -> result = CalculatorLogic.addition(firstNumber, secondNumber);
-                    case SUB -> result = CalculatorLogic.subtraction(firstNumber, secondNumber);
-                    case MUL -> result = CalculatorLogic.multiplication(firstNumber, secondNumber);
-                    case DIV -> {
-                        if (secondNumber == 0.0) {
-                            System.out.println("Cannot divide by 0. Enter another number: ");
-                            secondNumber =  InputHandler.getNumberFromUser(scanner, "Enter second number: ");
-                            validOperation = false;
-                        } else {
-                            result = CalculatorLogic.division(firstNumber, secondNumber);
-                        }
-                    }
-                    case MOD -> {
-                        if (secondNumber == 0.0) {
-                            System.out.println("Cannot divide by 0. Enter another number: ");
-                            secondNumber =  InputHandler.getNumberFromUser(scanner, "Enter second number: ");
-                            validOperation = false;
-                        } else {
-                            result = CalculatorLogic.modulo(firstNumber, secondNumber);
-                        }
-                    }
-                    case CHANGE -> {
-                        CalculatorEnumChangeMenu changeOption = null;
-
-                        while (changeOption != CalculatorEnumChangeMenu.EXIT) {
-
-                            changeOption = InputHandler.getChangeOperationFromUser(scanner);
-
-                            if (changeOption == null) {
-                                System.out.println("Invalid option! Try again or type Exit.");
-                                continue;
-                            }
-
-                            switch (changeOption) {
-                                case FIRST -> firstNumber = InputHandler.getNumberFromUser(scanner, "Enter first number: ");
-                                case SECOND -> secondNumber = InputHandler.getNumberFromUser(scanner, "Enter second number: ");
-                            }
-                            System.out.println("\nFirst Number: " + firstNumber + "\nSecondNumberL: " + secondNumber);
-                        }
-                        validOperation = false;
-                    }
-                }
+            while (operation != CalculatorEnumMenu.EXIT) {
+                handler.handleOperation(operation);
+                operation = InputHandler.getOperationFromUser(scanner);
             }
 
-                if (validOperation) {
-                    System.out.printf("Result: %.3f%n" , result);
-                }
-            operation = InputHandler.getOperationFromUser(scanner);
+            System.out.println("Exit calculator");
+            scanner.close();
         }
-
-        System.out.println("Exit calculator");
-        scanner.close();
     }
-}
