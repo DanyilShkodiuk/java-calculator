@@ -1,3 +1,5 @@
+package menu;
+
 public enum CalculatorEnumChangeMenu {
     FIRST("first", "Change First Number"),
     SECOND("second", "Change Second Number"),
@@ -30,7 +32,7 @@ public enum CalculatorEnumChangeMenu {
         }catch (NumberFormatException ignored) {}
 
         for (CalculatorEnumChangeMenu option : CalculatorEnumChangeMenu.values()) {
-            if (option.getCommand().equals(input) ||  option.getDisplayName().toLowerCase().startsWith(input)) {
+            if (option.getCommand().toLowerCase().startsWith(input) ||  option.getDisplayName().toLowerCase().startsWith(input)) {
                 return option;
             }
         }
