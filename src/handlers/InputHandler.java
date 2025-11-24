@@ -1,3 +1,8 @@
+package handlers;
+
+import menu.CalculatorEnumChangeMenu;
+import menu.CalculatorEnumMenu;
+
 import java.util.Scanner;
 
 public class InputHandler {
@@ -14,7 +19,7 @@ public class InputHandler {
         return CalculatorEnumChangeMenu.fromInput(changeInput);
     }
 
-    public static double getNumberFromUser(Scanner scanner, String message) {
+    public static double getNumberFromUser(String message, Scanner scanner) {
         double number = 0;
         boolean valid = false;
         while (!valid) {

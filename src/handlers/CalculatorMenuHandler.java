@@ -1,12 +1,18 @@
+package handlers;
+
+import menu.CalculatorEnumChangeMenu;
+import menu.CalculatorEnumMenu;
+
+
 import java.util.Scanner;
 
-public class CalculatorHandler {
+public class CalculatorMenuHandler {
 
     private double firstNumber;
     private double secondNumber;
     private final Scanner scanner;
 
-    public CalculatorHandler(double firstNumber, double secondNumber, Scanner scanner) {
+    public CalculatorMenuHandler(double firstNumber, double secondNumber, Scanner scanner) {
         this.firstNumber = firstNumber;
         this.secondNumber = secondNumber;
         this.scanner = scanner;
@@ -22,25 +28,25 @@ public class CalculatorHandler {
         }
 
         switch (operation) {
-            case ADD -> result = CalculatorLogic.addition(firstNumber, secondNumber);
-            case SUB -> result = CalculatorLogic.subtraction(firstNumber, secondNumber);
-            case MUL -> result = CalculatorLogic.multiplication(firstNumber, secondNumber);
+            case ADD -> result = CalculatorOperationHandler.addition(firstNumber, secondNumber);
+            case SUB -> result = CalculatorOperationHandler.subtraction(firstNumber, secondNumber);
+            case MUL -> result = CalculatorOperationHandler.multiplication(firstNumber, secondNumber);
             case DIV -> {
                 if (secondNumber == 0.0) {
                     System.out.println("Cannot divide by 0. Enter another number: ");
-                    secondNumber = InputHandler.getNumberFromUser(scanner, "Enter second number: ");
+                    secondNumber = InputHandler.getNumberFromUser("Enter second number: ", scanner);
                     validOperation = false;
                 } else {
-                    result = CalculatorLogic.division(firstNumber, secondNumber);
+                    result = CalculatorOperationHandler.division(firstNumber, secondNumber);
                 }
             }
             case MOD -> {
                 if (secondNumber == 0.0) {
                     System.out.println("Cannot divide by 0. Enter another number: ");
-                    secondNumber = InputHandler.getNumberFromUser(scanner, "Enter second number: ");
+                    secondNumber = InputHandler.getNumberFromUser("Enter second number: ", scanner);
                     validOperation = false;
                 } else {
-                    result = CalculatorLogic.modulo(firstNumber, secondNumber);
+                    result = CalculatorOperationHandler.modulo(firstNumber, secondNumber);
                 }
             }
             case CHANGE -> {
@@ -66,8 +72,8 @@ public class CalculatorHandler {
             }
 
             switch (changeOption) {
-                case FIRST -> firstNumber = InputHandler.getNumberFromUser(scanner, "Enter first number: ");
-                case SECOND -> secondNumber = InputHandler.getNumberFromUser(scanner, "Enter second number: ");
+                case FIRST -> firstNumber = InputHandler.getNumberFromUser("Enter first number: ", scanner);
+                case SECOND -> secondNumber = InputHandler.getNumberFromUser("Enter second number: ", scanner);
             }
 
             System.out.println("\nFirst Number: " + firstNumber + "\nSecond Number: " + secondNumber);
