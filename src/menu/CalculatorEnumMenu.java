@@ -1,3 +1,5 @@
+package menu;
+
 public enum CalculatorEnumMenu {
     ADD("+", "Addition"),
     SUB("-", "Subtraction"),
@@ -32,18 +34,19 @@ public enum CalculatorEnumMenu {
             }
         } catch (NumberFormatException ignored) {}
 
-        for (CalculatorEnumMenu operation : CalculatorEnumMenu.values()) {
-            if (operation.symbol.equalsIgnoreCase(input) || operation.displayName.toLowerCase().startsWith(input)) {
-                return operation;
+        for (CalculatorEnumMenu CheckOperation : CalculatorEnumMenu.values()) {
+            if (CheckOperation.symbol.equalsIgnoreCase(input) || CheckOperation.displayName.toLowerCase().startsWith(input)) {
+                return CheckOperation;
             }
         }
         return null;
     }
+
     public static void printMenu() {
         System.out.println("\nSelect an operation / Number of operation:");
         int index = 1;
-        for (CalculatorEnumMenu op : CalculatorEnumMenu.values()) {
-            System.out.printf("%d. %s (%s)%n", index++, op.getSymbol(), op.getDisplayName());
+        for (CalculatorEnumMenu printOperation : CalculatorEnumMenu.values()) {
+            System.out.printf("%d. %s (%s)%n", index++, printOperation.getSymbol(), printOperation.getDisplayName());
         }
         System.out.print("\nOperation: ");
     }
