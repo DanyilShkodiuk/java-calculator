@@ -1,5 +1,5 @@
 # Java Calculator Application
-A sleek, standalone desktop calculator application developed using Java. This project provides a fully functional tool for performing standard arithmetic operations while serving as a practical demonstration of fundamental Java GUI programming and event handling.
+A sleek, standalone console calculator application developed using Java. This project provides a fully functional tool for performing standard arithmetic operations while serving as a practical demonstration of fundamental Java GUI programming and event handling.
 
 **Key Features:**
 **Core Arithmetic:** Supports essential operations: addition (+), subtraction (-), multiplication (*), and division (/).
