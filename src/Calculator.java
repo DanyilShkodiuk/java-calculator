@@ -1,3 +1,7 @@
+import handlers.CalculatorMenuHandler;
+import handlers.InputHandler;
+import menu.CalculatorEnumMenu;
+
 import java.util.Scanner;
 
     public class Calculator {
@@ -6,12 +10,12 @@ import java.util.Scanner;
 
             Scanner scanner = new Scanner(System.in);
 
-            double firstNumber = InputHandler.getNumberFromUser(scanner, "Enter first number: ");
-            double secondNumber = InputHandler.getNumberFromUser(scanner, "Enter second number: ");
+            double firstNumber = InputHandler.getNumberFromUser("Enter first number: ", scanner);
+            double secondNumber = InputHandler.getNumberFromUser("Enter second number: ", scanner);
 
             System.out.printf("\nFirst number: %.3f%nSecond number: %.3f%n", firstNumber, secondNumber);
 
-            CalculatorHandler handler = new CalculatorHandler(firstNumber, secondNumber, scanner);
+            CalculatorMenuHandler handler = new CalculatorMenuHandler(firstNumber, secondNumber, scanner);
 
             CalculatorEnumMenu operation = InputHandler.getOperationFromUser(scanner);
 

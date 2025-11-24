@@ -1,3 +1,5 @@
+package menu;
+
 public enum CalculatorEnumChangeMenu {
     FIRST("first", "Change First Number"),
     SECOND("second", "Change Second Number"),
