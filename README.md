@@ -1,5 +1,7 @@
 # Java Console Calculator
 
+[![CI](https://github.com/DanyilShkodiuk/java-calculator/actions/workflows/ci.yml/badge.svg)](https://github.com/DanyilShkodiuk/java-calculator/actions/workflows/ci.yml)
+
 An interactive command-line calculator written in plain Java (no libraries). It keeps two numbers in memory, lets you run several operations on them in a row, and change either number without restarting.
 
 ## Features
@@ -34,7 +36,16 @@ Result: 17.000
 
 ## Run
 
-Requires JDK 14 or newer (the code uses switch expressions); any current LTS such as JDK 17 or 21 works.
+Requires JDK 17 or newer.
+
+With Maven:
+
+```bash
+mvn package
+java -jar target/java-calculator-1.0.0.jar
+```
+
+Without Maven:
 
 ```bash
 javac -d out $(find src -name "*.java")
@@ -42,6 +53,16 @@ java -cp out Calculator
 ```
 
 Or open the folder in IntelliJ IDEA and run `Calculator`.
+
+## Tests
+
+27 JUnit 5 tests cover the arithmetic, number input (including `,` as a decimal separator and retrying after invalid input) and how menu commands are parsed from numbers, symbols and names.
+
+```bash
+mvn test
+```
+
+GitHub Actions runs the build and tests on every push and pull request.
 
 ## Project structure
 
@@ -55,6 +76,8 @@ src/
 └── menu/
     ├── CalculatorEnumMenu.java          # main menu options
     └── CalculatorEnumChangeMenu.java    # change-numbers menu options
+test/                                    # JUnit 5 tests, same packages as src/
+pom.xml                                  # Maven build, JUnit, runnable jar
 ```
 
 Menus are modelled as enums, so adding an operation means adding one enum value and one `case`.
